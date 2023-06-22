@@ -39,9 +39,9 @@ export default class Slider {
   }
 
   render() {
-    try {
+    if (this.hanson == null) {
       this.hanson = document.querySelector(".hanson");
-    } catch (e) {}
+    }
 
     console.log(this.page, this.slides);
 
