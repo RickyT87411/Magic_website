@@ -32,6 +32,11 @@ export default class Slider {
       btn.addEventListener("click", () => {
         this.plusSlides(1); // так как стрелка пока одна
       });
+      btn.parentNode.previousElementSibling.addEventListener("click", (e) => {
+        e.preventDefault();
+        this.slideIndex = 1;
+        this.showSlides(this.slideIndex);
+      });
     });
     this.showSlides(this.slideIndex); //обращение к методу внутри экземляра класса
   }
