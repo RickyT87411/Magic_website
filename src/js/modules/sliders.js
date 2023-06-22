@@ -15,7 +15,7 @@ export default class Slider {
       this.slideIndex = this.slides.length; //равен последнему элементу
     }
 
-    this.slides.forEach((slide) => {
+    Array.from(this.slides).forEach((slide) => {
       slide.style.display = "none";
     });
     this.slides[this.slideIndex - 1].style.display = "flex";
