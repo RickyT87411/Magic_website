@@ -14,7 +14,7 @@ export default class Slider {
     if (n < 1) {
       this.slideIndex = this.slides.length; //равен последнему элементу
     }
-    try {
+    if (this.hanson == null) {
       this.hanson.style.opacity = "0";
 
       if (n === 3) {
@@ -26,7 +26,7 @@ export default class Slider {
       } else {
         this.hanson.classList.remove("slideInUp");
       }
-    } catch (e) {}
+    }
 
     Array.from(this.slides).forEach((slide) => {
       slide.style.display = "none";
