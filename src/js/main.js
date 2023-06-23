@@ -1,5 +1,5 @@
-import Slider from "./modules/sliders";
+import MainSlider from "./modules/sliders/slider-main";
 window.addEventListener("DOMContentLoaded", () => {
-  const slider = new Slider(".page", ".next");
+  const slider = new MainSlider({ btns: ".next", page: ".page" });
   slider.render();
 });
