@@ -1,7 +1,9 @@
 export default class VideoPlayer {
   constructor(triggers, overlay) {
     this.btns = document.querySelectorAll(triggers);
-    this.overlay = document.querySelectorAll(overlay);
+    this.overlay = document.querySelector(overlay);
+    console.log(this.overlay);
+
     this.close = this.overlay.querySelector(".close");
   }
 
@@ -32,7 +34,6 @@ export default class VideoPlayer {
       width: "100%",
       videoId: `${url}`,
     });
-    console.log(this.player);
 
     this.overlay.style.display = "flex";
   }
