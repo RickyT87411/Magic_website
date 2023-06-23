@@ -14,7 +14,7 @@ export default class Slider {
     if (n < 1) {
       this.slideIndex = this.slides.length; //равен последнему элементу
     }
-    if (this.hanson == null) {
+    if (this.hanson) {
       this.hanson.style.opacity = "0";
 
       if (n === 3) {
@@ -39,7 +39,7 @@ export default class Slider {
   }
 
   render() {
-    if (this.hanson == null) {
+    if (this.hanson) {
       this.hanson = document.querySelector(".hanson");
     }
 
