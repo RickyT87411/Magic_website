@@ -34,7 +34,6 @@ export default class VideoPlayer {
       width: "100%",
       videoId,
     });
-    console.log(this.player);
 
     this.overlay.style.display = "flex";
   }
