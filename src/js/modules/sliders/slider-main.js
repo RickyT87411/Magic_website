@@ -1,8 +1,8 @@
 import Slider from "./sliders";
 
 export default class MainSlider extends Slider {
-  constructor(page, btns) {
-    super(page, btns);
+  constructor(btns) {
+    super(btns);
   }
 
   showSlides(n) {
@@ -25,8 +25,6 @@ export default class MainSlider extends Slider {
   }
 
   render() {
-    console.log(this.page, this.slides);
-
     this.btns.forEach((btn) => {
       btn.addEventListener("click", () => {
         this.plusSlides(1); // так как стрелка пока одна
