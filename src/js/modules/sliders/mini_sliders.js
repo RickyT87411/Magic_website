@@ -8,18 +8,18 @@ export default class MiniSlider extends Slider {
     Array.from(this.slides).forEach((slide) => {
       slide.classList.remove(this.activeClass);
       if (this.animate) {
-        slides.querySelector(".card__title").style.opacity = "0.4";
-        slides.querySelector(".card__controls-arrow").style.opacity = "0";
+        slide.querySelector(".card__title").style.opacity = "0.4";
+        slide.querySelector(".card__controls-arrow").style.opacity = "0";
       }
     });
 
     if (!this.slides[0].closest("button")) {
-      this.slides[0].add(this.activeClass);
+      this.slides[0].classList.add(this.activeClass);
     }
 
     if (this.animate) {
-      this.slides.querySelector(".card__title").style.opacity = "1";
-      this.slides.querySelector(".card__controls-arrow").style.opacity = "1";
+      this.slides[0].querySelector(".card__title").style.opacity = "1";
+      this.slides[0].querySelector(".card__controls-arrow").style.opacity = "1";
     }
   }
 
