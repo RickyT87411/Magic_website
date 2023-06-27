@@ -8,29 +8,52 @@ export default class MiniSlider extends Slider {
     Array.from(this.slides).forEach((slide) => {
       slide.classList.remove(this.activeClass);
       if (this.animate) {
-        this.slides[0].querySelector(".card__title").style.opacity = "0.4";
-        this.slides[0].querySelector(".card__controls-arrow").style.opacity =
-          "0";
+        slides.querySelector(".card__title").style.opacity = "0.4";
+        slides.querySelector(".card__controls-arrow").style.opacity = "0";
       }
     });
 
-    this.slides[0].add(this.activeClass);
+    if (!this.slides[0].closest("button")) {
+      this.slides[0].add(this.activeClass);
+    }
+
     if (this.animate) {
-      this.slides[0].querySelector(".card__title").style.opacity = "1";
-      this.slides[0].querySelector(".card__controls-arrow").style.opacity = "1";
+      this.slides.querySelector(".card__title").style.opacity = "1";
+      this.slides.querySelector(".card__controls-arrow").style.opacity = "1";
+    }
+  }
+
+  nextSlide() {
+    if (
+      this.slides[1].tagName == "BUTTON" &&
+      this.slides[2].tagName == "BUTTON"
+    ) {
+      this.container.appendChild(this.slides[0]); //slider
+      this.container.appendChild(this.slides[1]); //btn
+      this.container.appendChild(this.slides[2]); //btn
+      this.decorizeSlide();
+    } else if (this.slides[1].tagName == "BUTTON") {
+      this.container.appendChild(this.slides[0]); //slider
+      this.container.appendChild(this.slides[1]); //btn
+      this.decorizeSlide();
+    } else {
+      this.container.appendChild(this.slides[0]); //первый элемент помещается в конец слайдера
+      this.decorizeSlide();
     }
   }
 
   bindTriggers() {
-    this.next.addEventListener("click", () => {
-      this.container.appendChild(this.slides[0]); //первый элемент помещается в конец слайдера
-      this.decorizeSlide();
-    });
+    this.next.addEventListener("click", () => this.nextSlide());
 
     this.prev.addEventListener("click", () => {
-      let active = this.slides[this.slides.length - 1]; //обращаемся к последнему слайду
-      this.container.insertBefore(active, this.slides[0]); //помещаем последний после первого
-      this.decorizeSlide();
+      for (let i = this.slides.length - 1; i > 0; i--) {
+        if (this.slides[i].tagName !== "BUTTON") {
+          let active = this.slides[i]; //обращаемся к последнему слайду
+          this.container.insertBefore(active, this.slides[0]); //помещаем последний после первого
+          this.decorizeSlide();
+          break;
+        }
+      }
     });
   }
 
@@ -44,5 +67,9 @@ export default class MiniSlider extends Slider {
 
     this.bindTriggers();
     this.decorizeSlide();
+
+    if (this.autoplay) {
+      setInterval(() => this.nextSlide(), 5000);
+    }
   }
 }
