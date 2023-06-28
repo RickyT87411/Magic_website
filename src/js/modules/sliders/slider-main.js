@@ -21,7 +21,7 @@ export default class MainSlider extends Slider {
         setTimeout(() => {
           this.hanson.style.opacity = "1";
           this.hanson.classList.add("slideInUp");
-        }, 3000);
+        }, 6000);
       } else {
         this.hanson.classList.remove("slideInUp");
       }

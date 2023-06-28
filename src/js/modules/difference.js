@@ -32,7 +32,7 @@ export default class Difference {
   }
 
   init() {
-    if (this.oldItems && tjis.newItems) {
+    if (this.oldItems && this.newItems) {
       this.hideCards(this.oldItems);
       this.hideCards(this.newItems);
       this.bindTriggers(this.oldOfficer, this.oldItems, this.oldCounter);
