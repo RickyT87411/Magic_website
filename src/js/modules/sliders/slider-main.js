@@ -13,6 +13,7 @@ export default class MainSlider extends Slider {
     if (n < 1) {
       this.slideIndex = this.slides.length; //равен последнему элементу
     }
+
     if (this.hanson) {
       this.hanson.style.opacity = "0";
 
@@ -37,11 +38,7 @@ export default class MainSlider extends Slider {
     this.showSlides((this.slideIndex += n)); //контроль передвижения слайдов
   }
 
-  render() {
-    if (this.hanson) {
-      this.hanson = document.querySelector(".hanson");
-    }
-
+  bindTriggers() {
     this.btns.forEach((btn) => {
       btn.addEventListener("click", () => {
         this.plusSlides(1); // так как стрелка пока одна
@@ -52,6 +49,31 @@ export default class MainSlider extends Slider {
         this.showSlides(this.slideIndex);
       });
     });
-    this.showSlides(this.slideIndex); //обращение к методу внутри экземляра класса
+
+    document.querySelectorAll(".prevmodule").forEach((item) => {
+      item.addEventListener("click", () => {
+        e.stopPropagation();
+        e.preventDefault();
+        this.plusSlides(-1);
+      });
+    });
+
+    document.querySelectorAll(".nextmodule").forEach((item) => {
+      item.addEventListener("click", (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        this.plusSlides(1);
+      });
+    });
+  }
+
+  render() {
+    if (this.container) {
+      if (this.hanson) {
+        this.hanson = document.querySelector(".hanson");
+      }
+      this.showSlides(this.slideIndex); //обращение к методу внутри экземляра класса
+      this.bindTriggers();
+    }
   }
 }
