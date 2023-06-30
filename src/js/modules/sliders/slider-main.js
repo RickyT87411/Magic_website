@@ -51,7 +51,7 @@ export default class MainSlider extends Slider {
     });
 
     document.querySelectorAll(".prevmodule").forEach((item) => {
-      item.addEventListener("click", () => {
+      item.addEventListener("click", (e) => {
         e.stopPropagation();
         e.preventDefault();
         this.plusSlides(-1);
