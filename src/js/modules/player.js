@@ -11,20 +11,23 @@ export default class VideoPlayer {
 
   bindTriggers() {
     this.btns.forEach((btn, i) => {
-      this.activeBtn = btn;
-      const blockedElem = this.activeBtn.closest(
-        ".module__video-item"
-      ).nextElementSibling;
+      if (this.activeBtn) {
+        this.activeBtn = btn;
+        const blockedElem = this.activeBtn.closest(
+          ".module__video-item"
+        ).nextElementSibling;
 
-      if (i % 2 === 0) {
-        //проверяем каждый второй элемент
-        blockedElem.setAttribute("data-disabled", "true");
+        if (i % 2 === 0) {
+          //проверяем каждый второй элемент
+          blockedElem.setAttribute("data-disabled", "true");
+        }
       }
 
       btn.addEventListener("click", () => {
         if (
+          !btn.closest(".module__video-item") ||
           btn.closest(".module__video-item").getAttribute("data-disabled") !==
-          "true"
+            "true"
         ) {
           if (document.querySelector("iframe#frame")) {
             this.overlay.style.display = "flex";
@@ -63,25 +66,31 @@ export default class VideoPlayer {
   }
 
   onPlayerStateChange(state) {
-    const blockedElem = this.activeBtn.closest(
-      ".module__video-item"
-    ).nextElementSibling; //получаем первого родителя
+    if (this.blockedElem) {
+      const blockedElem = this.activeBtn.closest(
+        ".module__video-item"
+      ).nextElementSibling; //получаем первого родителя
 
-    const playBtn = this.activeBtn.querySelector("svg").cloneNode(true); //копируем svg
+      const playBtn = this.activeBtn.querySelector("svg").cloneNode(true); //копируем svg
 
-    if (state.data === 0) {
-      if (
-        blockedElem.querySelector(".play__circle").classList.contains("closed")
-      ) {
-        blockedElem.querySelector(".play__circle").classList.remove("closed");
-        blockedElem.querySelector("svg").remove();
-        blockedElem.querySelector(".play__circle").appendChild(playBtn);
-        blockedElem.querySelector(".play__text").textContent = "play video";
-        blockedElem.querySelector(".play__text").classList.remove("attention");
-        blockedElem.style.opacity = 1;
-        blockedElem.style.filter = "none";
+      if (state.data === 0) {
+        if (
+          blockedElem
+            .querySelector(".play__circle")
+            .classList.contains("closed")
+        ) {
+          blockedElem.querySelector(".play__circle").classList.remove("closed");
+          blockedElem.querySelector("svg").remove();
+          blockedElem.querySelector(".play__circle").appendChild(playBtn);
+          blockedElem.querySelector(".play__text").textContent = "play video";
+          blockedElem
+            .querySelector(".play__text")
+            .classList.remove("attention");
+          blockedElem.style.opacity = 1;
+          blockedElem.style.filter = "none";
 
-        blockedElem.setAttribute("data-disabled", "false");
+          blockedElem.setAttribute("data-disabled", "false");
+        }
       }
     }
   }
