@@ -69,6 +69,9 @@ export default class Form {
   async postData(url, data) {
     let res = await fetch(url, {
       method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
       body: data,
     });
     return await res.text();
@@ -93,7 +96,12 @@ export default class Form {
 
         const formData = new FormData(form);
 
-        this.postData(this.path, formData)
+        const objDataForm = {};
+
+        formData.forEach((value, key) => (objDataForm[key] = value));
+        const json = JSON.stringify(objDataForm);
+
+        this.postData(this.path, json)
           .then((res) => {
             console.log(res);
             statusMessage.textContent = this.message.success;
