@@ -5,17 +5,41 @@ export default class VideoPlayer {
     this.overlay = document.querySelector(overlay);
 
     this.close = this.overlay.querySelector(".close");
+
+    this.onPlayerStateChange = this.onPlayerStateChange.bind(this); //привязали контекст вызова к методу и к классу
   }
 
   bindTriggers() {
-    this.btns.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        if (document.querySelector("iframe#frame")) {
-          this.overlay.style.display = "flex";
-        } else {
-          const path = btn.getAttribute("data-url");
+    this.btns.forEach((btn, i) => {
+      if (this.activeBtn) {
+        this.activeBtn = btn;
+        const blockedElem = this.activeBtn.closest(
+          ".module__video-item"
+        ).nextElementSibling;
 
-          this.createPlayer(path);
+        if (i % 2 === 0) {
+          //проверяем каждый второй элемент
+          blockedElem.setAttribute("data-disabled", "true");
+        }
+      }
+
+      btn.addEventListener("click", () => {
+        if (
+          !btn.closest(".module__video-item") ||
+          btn.closest(".module__video-item").getAttribute("data-disabled") !==
+            "true"
+        ) {
+          if (document.querySelector("iframe#frame")) {
+            this.overlay.style.display = "flex";
+            if (this.path !== btn.getAttribute("data-url")) {
+              this.path = btn.getAttribute("data-url"); //показывает какое именно видео проигрывается
+              this.player.loadVideoById({ videoId: this.path }); //загрузить видео по определенному id
+            }
+          } else {
+            this.path = btn.getAttribute("data-url");
+
+            this.createPlayer(this.path);
+          }
         }
       });
     });
@@ -33,19 +57,54 @@ export default class VideoPlayer {
       height: "100%",
       width: "100%",
       videoId,
+      events: {
+        onStateChange: this.onPlayerStateChange,
+      },
     });
 
     this.overlay.style.display = "flex";
   }
 
+  onPlayerStateChange(state) {
+    if (this.blockedElem) {
+      const blockedElem = this.activeBtn.closest(
+        ".module__video-item"
+      ).nextElementSibling; //получаем первого родителя
+
+      const playBtn = this.activeBtn.querySelector("svg").cloneNode(true); //копируем svg
+
+      if (state.data === 0) {
+        if (
+          blockedElem
+            .querySelector(".play__circle")
+            .classList.contains("closed")
+        ) {
+          blockedElem.querySelector(".play__circle").classList.remove("closed");
+          blockedElem.querySelector("svg").remove();
+          blockedElem.querySelector(".play__circle").appendChild(playBtn);
+          blockedElem.querySelector(".play__text").textContent = "play video";
+          blockedElem
+            .querySelector(".play__text")
+            .classList.remove("attention");
+          blockedElem.style.opacity = 1;
+          blockedElem.style.filter = "none";
+
+          blockedElem.setAttribute("data-disabled", "false");
+        }
+      }
+    }
+  }
+
   init() {
-    const tag = document.createElement("script");
+    if (this.btns.length > 0) {
+      const tag = document.createElement("script");
 
-    tag.src = "https://www.youtube.com/iframe_api";
-    const firstScriptTag = document.getElementsByTagName("script")[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName("script")[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    this.bindTriggers();
-    this.bindCloseBtn();
+      this.bindTriggers();
+      this.bindCloseBtn();
+    }
   }
 }
