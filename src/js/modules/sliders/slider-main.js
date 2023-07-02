@@ -69,9 +69,8 @@ export default class MainSlider extends Slider {
 
   render() {
     if (this.container) {
-      if (this.hanson) {
-        this.hanson = document.querySelector(".hanson");
-      }
+      this.hanson = document.querySelector(".hanson");
+
       this.showSlides(this.slideIndex); //обращение к методу внутри экземляра класса
       this.bindTriggers();
     }
