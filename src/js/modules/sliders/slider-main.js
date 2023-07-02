@@ -22,7 +22,7 @@ export default class MainSlider extends Slider {
         setTimeout(() => {
           this.hanson.style.opacity = "1";
           this.hanson.classList.add("slideInUp");
-        }, 6000);
+        }, 3000);
       } else {
         console.log("3if");
         this.hanson.classList.remove("slideInUp");
@@ -70,9 +70,8 @@ export default class MainSlider extends Slider {
 
   render() {
     if (this.container) {
-      if (this.hanson) {
-        this.hanson = document.querySelector(".hanson");
-      }
+      this.hanson = document.querySelector(".hanson");
+
       this.showSlides(this.slideIndex); //обращение к методу внутри экземляра класса
       this.bindTriggers();
     }
