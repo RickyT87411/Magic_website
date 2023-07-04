@@ -17,14 +17,12 @@ export default class MainSlider extends Slider {
       this.hanson.style.opacity = "0";
 
       if (n === 3) {
-        console.log("2if");
         this.hanson.classList.add("animated");
         setTimeout(() => {
           this.hanson.style.opacity = "1";
           this.hanson.classList.add("slideInUp");
         }, 3000);
       } else {
-        console.log("3if");
         this.hanson.classList.remove("slideInUp");
       }
     }
